@@ -1,16 +1,21 @@
 package com.dongxu;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.dongxu.activity.ShowActivity;
+import com.dongxu.receiver.ShowBroadcastReceiver;
+import com.dongxu.receiver.order.FinalReceiver;
+import com.dongxu.receiver.order.ReceiverCommon;
 import com.dongxu.service.ShowBindService;
 import com.dongxu.service.ShowService;
 
@@ -58,8 +63,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //3.
+        //3.BroadcastReceiver
+        findViewById(R.id.receiver_no_order).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //发送无序广播
+                Intent intent = new Intent(MainActivity.this, ShowBroadcastReceiver.class);
+                intent.setAction(ShowBroadcastReceiver.RECEIVER_ACTION);
+                sendBroadcast(intent);
+            }
+        });
+        findViewById(R.id.receiver_has_order).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //发送有序广播
+                Intent intent = new Intent();
+                intent.setAction(ReceiverCommon.RECEIVER_ORDER_ACTION);
+
+                String receiverPermission = ReceiverCommon.RECEIVER_ORDER_PERMISSION;
+                BroadcastReceiver resultReceiver = new FinalReceiver();
+                Handler scheduler = new Handler();
+                int initialCode = 0;
+                String initialData = "市长说：每人发送一个10元红包！！！";
+                Bundle initialExtras = new Bundle();
+
+                sendOrderedBroadcast(
+                        intent,
+                        receiverPermission,//接受这条广播所需的权限
+                        resultReceiver,//最终的广播接受者，广播一定会传递给 resultReceiver;不管 广播是否被 终止； //这个Receiver在清单文件中可以不用声明 action
+                        scheduler,//处理广播的分发
+                        initialCode,
+                        initialData,//初始数据
+                        initialExtras//额外数据，如果觉得初始数据不够用，可以通过该字段添加
+                );
+
+
+//                sendOrderedBroadcast(intent,receiverPermission);
+
+
+            }
+        });
+
     }
+
+
+
+
 
     //*************************************** start Service ****************************************
     //启动Service

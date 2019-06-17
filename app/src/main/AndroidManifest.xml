@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.dongxu">
 
+    <!-- 自定义权限 -->
+    <permission
+        android:name="com.dongxu.receiver.order.permission"
+        android:protectionLevel="normal"></permission>
+
+    <!--  使用自定义的权限 -->
+    <uses-permission android:name="com.dongxu.receiver.order.permission"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,8 +28,39 @@
         <activity android:name=".activity.ShowActivity">
         </activity>
 
+        <!-- service -->
         <service android:name=".service.ShowService"/>
         <service android:name=".service.ShowBindService"/>
+
+        <!-- 无序广播 -->
+        <receiver android:name=".receiver.ShowBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.dongxu.receiver.action"></action>
+            </intent-filter>
+        </receiver>
+
+        <!--有序广播 -->
+        <receiver android:name=".receiver.order.ShowOrderBroadcastReceiverLow">
+            <intent-filter android:priority="-1000">
+                <action android:name="com.dongxu.receiver.order.action"></action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.order.ShowOrderBroadcastReceiverMid">
+            <intent-filter android:priority="500">
+                <action android:name="com.dongxu.receiver.order.action"></action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.order.ShowOrderBroadcastReceiverHigh">
+            <intent-filter android:priority="1000">
+                <action android:name="com.dongxu.receiver.order.action"></action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.order.FinalReceiver">
+            <!--<intent-filter>-->
+                <!--<action android:name="com.dongxu.receiver.order.action"></action>-->
+            <!--</intent-filter>-->
+        </receiver>
+
     </application>
 
 </manifest>
