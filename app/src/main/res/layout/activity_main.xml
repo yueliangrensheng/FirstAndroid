@@ -3,8 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <!-- 1. Activity life -->
@@ -13,5 +14,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Activity life"/>
+
+    <!-- 2. Service life -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- start Service -->
+        <Button
+            android:id="@+id/service_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Start"/>
+
+        <!-- stop Service -->
+        <Button
+            android:id="@+id/service_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Stop"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- start Service -->
+        <Button
+            android:id="@+id/service_bind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Bind"/>
+
+        <!-- stop Service -->
+        <Button
+            android:id="@+id/service_unbind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Unbind"/>
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -20,6 +20,8 @@
         <activity android:name=".activity.ShowActivity">
         </activity>
 
+        <service android:name=".service.ShowService"/>
+        <service android:name=".service.ShowBindService"/>
     </application>
 
 </manifest>
