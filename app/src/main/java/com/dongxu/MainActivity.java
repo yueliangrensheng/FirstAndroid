@@ -2,9 +2,14 @@ package com.dongxu;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,6 +27,8 @@ import com.dongxu.service.ShowService;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "dx";
+
+    final Uri uri = Uri.parse("content://com.dx.provider.authority/user");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +109,108 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
+
         });
+
+
+        final int[] uid = {11};
+        //4. ContentProvider
+        findViewById(R.id.provider_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //add data
+
+                ContentValues values = new ContentValues();
+                values.put("uid", String.valueOf(uid[0]++));
+                values.put("name", "li");
+                values.put("age", "30");
+                values.put("score", "55.7");
+
+                //通过ContentResolver 根据URi 向 ContentProvider中插入数据
+                ContentResolver contentResolver = getContentResolver();
+                contentResolver.insert(uri, values);
+            }
+        });
+        findViewById(R.id.provider_del).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //del data
+
+                ContentResolver contentResolver = getContentResolver();
+                int delete = contentResolver.delete(uri, "score<?", new String[]{"60"});
+//                int delete = contentResolver.delete(uri, "score<60", null); //也可以使用
+                if (delete > 0) {
+                    Log.i(TAG, "------ del count = " + delete);
+                }
+            }
+        });
+        findViewById(R.id.provider_update).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //update data
+
+                ContentValues values = new ContentValues();
+                values.put("score", "100");
+
+                ContentResolver contentResolver = getContentResolver();
+                int update = contentResolver.update(uri, values, "uid=?", new String[]{"11"});
+                if (update > 0) {
+                    Log.i(TAG, "------ update count = " + update);
+                }
+            }
+        });
+        findViewById(R.id.provider_query).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //query data
+                ContentResolver contentResolver = getContentResolver();
+                Cursor cursor = contentResolver.query(uri, new String[]{"uid", "name", "age", "score"}, null, null, null);
+                if (cursor == null) {
+                    return;
+                }
+
+                while (cursor.moveToNext()) {
+                    int uid = cursor.getInt(cursor.getColumnIndex("uid"));
+                    String name = cursor.getString(cursor.getColumnIndex("name"));
+                    int age = cursor.getInt(cursor.getColumnIndex("age"));
+                    double score = cursor.getDouble(cursor.getColumnIndex("score"));
+
+                    Log.i(TAG, "uid = " + uid + ", name = " + name + ", age = " + age + ", score = " + score);
+                }
+
+                cursor.close();
+
+
+            }
+        });
+
+        findViewById(R.id.provider_observer_register).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContentResolver().registerContentObserver(uri, true, contentObserver);
+            }
+        });
+        findViewById(R.id.provider_observer_unregister).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContentResolver().unregisterContentObserver(contentObserver);
+            }
+        });
+
+
+        //end
 
     }
 
 
+    ContentObserver contentObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
 
+            Log.i(TAG, "------ content observer ------");
+        }
+    };
 
 
     //*************************************** start Service ****************************************

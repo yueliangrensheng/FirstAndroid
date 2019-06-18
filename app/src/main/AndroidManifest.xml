@@ -10,6 +10,9 @@
     <!--  使用自定义的权限 -->
     <uses-permission android:name="com.dongxu.receiver.order.permission"></uses-permission>
 
+    <!--  使用OtherApp中的ContentProvider权限 -->
+    <uses-permission android:name="com.dx.provider.permission"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

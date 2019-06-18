@@ -68,14 +68,75 @@
 
         <Button
             android:id="@+id/receiver_no_order"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="BroadcastReceiver no Order"/>
+
         <Button
             android:id="@+id/receiver_has_order"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="BroadcastReceiver has Order"/>
+    </LinearLayout>
+
+
+    <!-- 4. ContentProvider -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/provider_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Provider_add"/>
+
+        <Button
+            android:id="@+id/provider_del"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Provider_del"/>
+
+        <Button
+            android:id="@+id/provider_update"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Provider_update"/>
+
+        <Button
+            android:id="@+id/provider_query"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Provider_query"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/provider_observer_register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="observer_register"/>
+
+        <Button
+            android:id="@+id/provider_observer_unregister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="observer_unregister"/>
     </LinearLayout>
 
 </LinearLayout>
